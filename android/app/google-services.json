@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "956655932863",
+    "project_id": "motivacionjimmy-a41c2",
+    "storage_bucket": "motivacionjimmy-a41c2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956655932863:android:2155fec29b095f982a3d0a",
+        "android_client_info": {
+          "package_name": "com.example.motivacional"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSMU1JFVm7YRYGTk3GZ2sIO4FvtPOlRV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
