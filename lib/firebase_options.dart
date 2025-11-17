@@ -4,25 +4,85 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
+/// Default [FirebaseOptions] for use with your Firebase apps.
+///
+/// Example:
+/// ```dart
+/// import 'firebase_options.dart';
+/// // ...
+/// await Firebase.initializeApp(
+///   options: DefaultFirebaseOptions.currentPlatform,
+/// );
+/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return const FirebaseOptions(
-        apiKey: "AIzaSyXXXX",
-        appId: "1:1234567890:web:abcdef",
-        messagingSenderId: "1234567890",
-        projectId: "motivacionjimmy-a41c2",
-        authDomain: "motivacionjimmy-a41c2.firebaseapp.com",
-        storageBucket: "motivacionjimmy-a41c2.appspot.com",
-      );
+      return web;
     }
-    // Android
-    return const FirebaseOptions(
-      apiKey: "AIzaSyXXXX",
-      appId: "1:1234567890:android:abcdef",
-      messagingSenderId: "1234567890",
-      projectId: "motivacionjimmy-a41c2",
-      storageBucket: "motivacionjimmy-a41c2.appspot.com",
-    );
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return android;
+      case TargetPlatform.iOS:
+        return ios;
+      case TargetPlatform.macOS:
+        return macos;
+      case TargetPlatform.windows:
+        return windows;
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      default:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions are not supported for this platform.',
+        );
+    }
   }
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAv71_nBsyQatBEzeIY_BkNvjuwQYZd4II',
+    appId: '1:956655932863:web:9960a47eab8beb652a3d0a',
+    messagingSenderId: '956655932863',
+    projectId: 'motivacionjimmy-a41c2',
+    authDomain: 'motivacionjimmy-a41c2.firebaseapp.com',
+    storageBucket: 'motivacionjimmy-a41c2.firebasestorage.app',
+    measurementId: 'G-V4SK0SN4FR',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyCSMU1JFVm7YRYGTk3GZ2sIO4FvtPOlRV0',
+    appId: '1:956655932863:android:2155fec29b095f982a3d0a',
+    messagingSenderId: '956655932863',
+    projectId: 'motivacionjimmy-a41c2',
+    storageBucket: 'motivacionjimmy-a41c2.firebasestorage.app',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCIf1mL4VSKOz4x5UH5saut_PxaqVxDW5o',
+    appId: '1:956655932863:ios:2388ead77e3bd3762a3d0a',
+    messagingSenderId: '956655932863',
+    projectId: 'motivacionjimmy-a41c2',
+    storageBucket: 'motivacionjimmy-a41c2.firebasestorage.app',
+    iosBundleId: 'com.example.motivacional',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyCIf1mL4VSKOz4x5UH5saut_PxaqVxDW5o',
+    appId: '1:956655932863:ios:2388ead77e3bd3762a3d0a',
+    messagingSenderId: '956655932863',
+    projectId: 'motivacionjimmy-a41c2',
+    storageBucket: 'motivacionjimmy-a41c2.firebasestorage.app',
+    iosBundleId: 'com.example.motivacional',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyAv71_nBsyQatBEzeIY_BkNvjuwQYZd4II',
+    appId: '1:956655932863:web:5605e41e7458c9e12a3d0a',
+    messagingSenderId: '956655932863',
+    projectId: 'motivacionjimmy-a41c2',
+    authDomain: 'motivacionjimmy-a41c2.firebaseapp.com',
+    storageBucket: 'motivacionjimmy-a41c2.firebasestorage.app',
+    measurementId: 'G-03NMSGZZPX',
+  );
 }

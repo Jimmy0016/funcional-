@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// 🌈 Tema global de la aplicación Motivacional
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
     fontFamily: 'Poppins',
 
-    // 🎨 Colores principales
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.deepPurple,
       primary: Colors.deepPurple,
@@ -15,7 +13,6 @@ class AppTheme {
       background: Colors.white,
     ),
 
-    // 🟣 AppBar
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.deepPurple,
       elevation: 4,
@@ -28,7 +25,6 @@ class AppTheme {
       iconTheme: IconThemeData(color: Colors.white),
     ),
 
-    // 🧭 Botones principales
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.deepPurple,
@@ -44,22 +40,21 @@ class AppTheme {
       ),
     ),
 
-    // 🔲 Tarjetas (Cards)
-    cardTheme: CardTheme(
-      color: Colors.white.withOpacity(0.95),
+    // 🔲 Cards (nuevo API Flutter 3.35+)
+    cardTheme: CardThemeData(
+      color: Colors.white,
+      elevation: 6,
       shadowColor: Colors.deepPurple.shade100,
-      elevation: 5,
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
     ),
 
-    // 🧾 Campos de texto
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Colors.white,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      contentPadding:
+          const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
       ),
@@ -70,7 +65,6 @@ class AppTheme {
       labelStyle: const TextStyle(color: Colors.black87),
     ),
 
-    // 📋 Texto
     textTheme: const TextTheme(
       bodyMedium: TextStyle(fontSize: 16, color: Colors.black87),
       titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -80,7 +74,6 @@ class AppTheme {
     scaffoldBackgroundColor: const Color(0xFFF5F3FF),
   );
 
-  /// 🌙 Tema oscuro opcional
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     fontFamily: 'Poppins',
@@ -99,7 +92,6 @@ class AppTheme {
     ),
   );
 
-  /// 🌅 Degradado de fondo reutilizable
   static const LinearGradient backgroundGradient = LinearGradient(
     colors: [Color(0xFFB39DDB), Color(0xFFEDE7F6)],
     begin: Alignment.topLeft,

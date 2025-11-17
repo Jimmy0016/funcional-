@@ -5,7 +5,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: 3.9.2
 
 dependencies:
   flutter:
@@ -45,11 +45,11 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/lottie/
+    - assets/fonts/
 
   fonts:
     - family: Poppins
       fonts:
-        - asset: assets/lottie/fonts/Poppins-Regular.ttf
-        - asset: assets/lottie/fonts/Poppins-Bold.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
           weight: 700
