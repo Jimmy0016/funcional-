@@ -5,6 +5,7 @@ import '../service/auth_service.dart';
 import '../screens/home_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/login_screen.dart';
+import '../screens/favorites_screen.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
@@ -119,7 +120,10 @@ class _AppDrawerState extends State<AppDrawer> {
               title: const Text("Favoritos", style: TextStyle(color: Colors.white)),
               onTap: () {
                 Navigator.pop(context);
-                // TODO: Implementar pantalla de favoritos
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FavoritesScreen()),
+                );
               },
             ),
             ListTile(
