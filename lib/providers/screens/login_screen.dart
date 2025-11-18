@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'home_screen.dart';
 import 'register_screen.dart';
+import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -55,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade50,
+      backgroundColor: Colors.lightBlue.shade50,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
@@ -64,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 const Icon(Icons.format_quote_rounded,
-                    size: 90, color: Colors.deepPurple),
+                    size: 90, color: Colors.lightBlue),
                 const SizedBox(height: 10),
                 const Text(
                   "Frases Motivacionales 💫",
@@ -72,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
-                    color: Colors.deepPurple,
+                    color: Colors.lightBlue,
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -114,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         _obscurePassword
                             ? Icons.visibility_off
                             : Icons.visibility,
-                        color: Colors.deepPurple,
+                        color: Colors.lightBlue,
                       ),
                       onPressed: () => setState(
                           () => _obscurePassword = !_obscurePassword),
@@ -135,14 +136,36 @@ class _LoginScreenState extends State<LoginScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
+
+                // 🔗 Enlace "¿Olvidaste tu contraseña?"
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordScreen()),
+                      );
+                    },
+                    child: const Text(
+                      "¿Olvidaste tu contraseña?",
+                      style: TextStyle(
+                        color: Colors.lightBlue,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
 
                 // 🚀 Botón de inicio de sesión
                 _isLoading
-                    ? const CircularProgressIndicator(color: Colors.deepPurple)
+                    ? const CircularProgressIndicator(color: Colors.lightBlue)
                     : ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurple,
+                          backgroundColor: Colors.lightBlue,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 100, vertical: 14),
                           shape: RoundedRectangleBorder(
@@ -173,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: const Text(
                     "¿No tienes cuenta? Regístrate aquí",
                     style: TextStyle(
-                      color: Colors.deepPurple,
+                      color: Colors.lightBlue,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../service/quotes_service.dart';
 import '../service/auth_service.dart';
 import '../widgets/gradient_background.dart';
 import '../widgets/quote_card.dart';
+import '../widgets/app_drawer.dart';
 import 'login_screen.dart';
 import 'quote_detail_screen.dart';
 import 'profile_screen.dart';
@@ -21,11 +23,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool _isLoading = true;
   List<Map<String, dynamic>> frases = [];
+  String _userName = "";
 
   @override
   void initState() {
     super.initState();
     _loadFrases();
+    _loadUserName();
+  }
+
+  // 👤 Cargar nombre del usuario
+  Future<void> _loadUserName() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final userData = await _authService.getUserData(user.uid);
+      if (userData != null) {
+        setState(() {
+          _userName = userData['nombre'] ?? 'Usuario';
+        });
+      }
+    }
   }
 
   // 🔥 Cargar frases desde Firestore
@@ -38,25 +55,35 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  // ➕ Agregar nueva frase
-  Future<void> _agregarFrase() async {
-    TextEditingController textoController = TextEditingController();
-    TextEditingController autorController = TextEditingController();
+  // ➕ Agregar/Editar frase
+  Future<void> _showQuoteDialog({String? id, String? textoActual, String? autorActual}) async {
+    TextEditingController textoController = TextEditingController(text: textoActual ?? '');
+    TextEditingController autorController = TextEditingController(text: autorActual ?? '');
+    bool isEditing = id != null;
 
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Agregar nueva frase"),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(isEditing ? "Editar frase" : "Agregar nueva frase"),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: textoController,
-              decoration: const InputDecoration(labelText: "Frase"),
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: "Frase",
+                border: OutlineInputBorder(),
+              ),
             ),
+            const SizedBox(height: 16),
             TextField(
               controller: autorController,
-              decoration: const InputDecoration(labelText: "Autor"),
+              decoration: const InputDecoration(
+                labelText: "Autor",
+                border: OutlineInputBorder(),
+              ),
             ),
           ],
         ),
@@ -66,24 +93,20 @@ class _HomeScreenState extends State<HomeScreen> {
             child: const Text("Cancelar"),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.deepPurple,
-            ),
             onPressed: () async {
-              if (textoController.text.isNotEmpty &&
-                  autorController.text.isNotEmpty) {
-                await _quotesService.addQuote(
-                  textoController.text,
-                  autorController.text,
-                );
+              if (textoController.text.isNotEmpty && autorController.text.isNotEmpty) {
+                if (isEditing) {
+                  await _quotesService.updateQuote(id!, textoController.text, autorController.text);
+                } else {
+                  await _quotesService.addQuote(textoController.text, autorController.text);
+                }
                 if (mounted) Navigator.pop(context);
                 _loadFrases();
               } else {
-                Fluttertoast.showToast(
-                    msg: "Por favor completa todos los campos.");
+                Fluttertoast.showToast(msg: "Por favor completa todos los campos.");
               }
             },
-            child: const Text("Guardar"),
+            child: Text(isEditing ? "Actualizar" : "Guardar"),
           ),
         ],
       ),
@@ -104,7 +127,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // 🌅 Fondo degradado morado
+      drawer: const AppDrawer(),
+      // 🌅 Fondo degradado celeste
       body: GradientBackground(
         child: SafeArea(
           child: Column(
@@ -116,40 +140,36 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "Frases Motivacionales 💫",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+                    Builder(
+                      builder: (context) => IconButton(
+                        icon: const Icon(Icons.menu, color: Colors.white),
+                        onPressed: () => Scaffold.of(context).openDrawer(),
                       ),
                     ),
-                    Row(
-                      children: [
-                        IconButton(
-                          icon:
-                              const Icon(Icons.person, color: Colors.white),
-                          tooltip: "Perfil",
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const ProfileScreen()),
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.refresh, color: Colors.white),
-                          tooltip: "Actualizar",
-                          onPressed: _loadFrases,
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.logout, color: Colors.white),
-                          tooltip: "Cerrar sesión",
-                          onPressed: _logout,
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "¡Hola $_userName! 👋",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const Text(
+                            "Frases Motivacionales ☁️",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                    const SizedBox(width: 40),
                   ],
                 ),
               ),
@@ -179,6 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (context, index) {
                               final frase = frases[index];
                               return QuoteCard(
+                                id: frase["id"],
                                 texto: frase["texto"],
                                 autor: frase["autor"],
                                 onTap: () {
@@ -192,10 +213,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   );
                                 },
+                                onEdit: () => _showQuoteDialog(
+                                  id: frase["id"],
+                                  textoActual: frase["texto"],
+                                  autorActual: frase["autor"],
+                                ),
                                 onDelete: () async {
-                                  await _quotesService
-                                      .deleteQuote(frase["id"]);
-                                  _loadFrases();
+                                  final confirm = await showDialog<bool>(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text("Confirmar"),
+                                      content: const Text("¿Eliminar esta frase?"),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(context, false),
+                                          child: const Text("Cancelar"),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                          onPressed: () => Navigator.pop(context, true),
+                                          child: const Text("Eliminar"),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                  if (confirm == true) {
+                                    await _quotesService.deleteQuote(frase["id"]);
+                                    _loadFrases();
+                                  }
                                 },
                               );
                             },
@@ -208,9 +253,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
       // ➕ Botón flotante para agregar nueva frase
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        onPressed: _agregarFrase,
-        child: const Icon(Icons.add, color: Colors.deepPurple),
+        backgroundColor: Colors.lightBlue,
+        onPressed: () => _showQuoteDialog(),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

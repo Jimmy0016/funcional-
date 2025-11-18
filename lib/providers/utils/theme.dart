@@ -7,14 +7,14 @@ class AppTheme {
     fontFamily: 'Poppins',
 
     colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.deepPurple,
-      primary: Colors.deepPurple,
-      secondary: Colors.purpleAccent,
+      seedColor: Colors.lightBlue,
+      primary: Colors.lightBlue,
+      secondary: Colors.cyan,
       background: Colors.white,
     ),
 
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: Colors.lightBlue,
       elevation: 4,
       centerTitle: true,
       titleTextStyle: TextStyle(
@@ -27,7 +27,7 @@ class AppTheme {
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.lightBlue,
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 14),
         shape: RoundedRectangleBorder(
@@ -44,7 +44,7 @@ class AppTheme {
     cardTheme: CardThemeData(
       color: Colors.white,
       elevation: 6,
-      shadowColor: Colors.deepPurple.shade100,
+      shadowColor: Colors.lightBlue.shade100,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
@@ -59,31 +59,31 @@ class AppTheme {
         borderRadius: BorderRadius.circular(15),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+        borderSide: const BorderSide(color: Colors.lightBlue, width: 2),
         borderRadius: BorderRadius.circular(15),
       ),
-      labelStyle: const TextStyle(color: Colors.black87),
+      labelStyle: const TextStyle(color: Colors.lightBlue),
     ),
 
     textTheme: const TextTheme(
       bodyMedium: TextStyle(fontSize: 16, color: Colors.black87),
       titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-      labelLarge: TextStyle(color: Colors.deepPurple),
+      labelLarge: TextStyle(color: Colors.lightBlue),
     ),
 
-    scaffoldBackgroundColor: const Color(0xFFF5F3FF),
+    scaffoldBackgroundColor: const Color(0xFFE3F2FD),
   );
 
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     fontFamily: 'Poppins',
     colorScheme: const ColorScheme.dark(
-      primary: Colors.deepPurple,
-      secondary: Colors.purpleAccent,
+      primary: Colors.lightBlue,
+      secondary: Colors.cyan,
     ),
     scaffoldBackgroundColor: const Color(0xFF1A1A2E),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: Colors.lightBlue,
       titleTextStyle: TextStyle(
         color: Colors.white,
         fontSize: 22,
@@ -93,7 +93,7 @@ class AppTheme {
   );
 
   static const LinearGradient backgroundGradient = LinearGradient(
-    colors: [Color(0xFFB39DDB), Color(0xFFEDE7F6)],
+    colors: [Color(0xFF81D4FA), Color(0xFFE1F5FE)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );

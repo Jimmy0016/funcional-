@@ -39,6 +39,20 @@ class QuotesService {
     }
   }
 
+  /// ✏️ Actualizar una frase existente
+  Future<void> updateQuote(String id, String texto, String autor) async {
+    try {
+      await _firestore.collection('frases').doc(id).update({
+        'texto': texto,
+        'autor': autor,
+        'fechaActualizacion': FieldValue.serverTimestamp(),
+      });
+      print('✅ Frase actualizada correctamente');
+    } catch (e) {
+      print('❌ Error al actualizar frase: $e');
+    }
+  }
+
   /// 🗑️ Eliminar una frase por su ID
   Future<void> deleteQuote(String id) async {
     try {

@@ -13,6 +13,8 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _nombreController = TextEditingController();
+  final TextEditingController _apellidoController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmController = TextEditingController();
@@ -32,10 +34,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final user = await _authService.register(
       _emailController.text,
       _passwordController.text,
+      _nombreController.text,
+      _apellidoController.text,
     );
 
     if (user != null && mounted) {
-      Fluttertoast.showToast(msg: "¡Bienvenido! 🎉");
+      Fluttertoast.showToast(msg: "¡Bienvenido ${_nombreController.text}! 🎉");
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -48,7 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade50,
+      backgroundColor: Colors.lightBlue.shade50,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
@@ -56,17 +60,59 @@ class _RegisterScreenState extends State<RegisterScreen> {
             key: _formKey,
             child: Column(
               children: [
-                const Icon(Icons.auto_awesome, size: 90, color: Colors.deepPurple),
+                const Icon(Icons.auto_awesome, size: 90, color: Colors.lightBlue),
                 const SizedBox(height: 10),
                 const Text(
                   "Crear cuenta ✨",
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
-                    color: Colors.deepPurple,
+                    color: Colors.lightBlue,
                   ),
                 ),
                 const SizedBox(height: 40),
+
+                // 👤 Nombre
+                TextFormField(
+                  controller: _nombreController,
+                  decoration: InputDecoration(
+                    labelText: "Nombre",
+                    prefixIcon: const Icon(Icons.person_outline),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Ingresa tu nombre";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+
+                // 👥 Apellido
+                TextFormField(
+                  controller: _apellidoController,
+                  decoration: InputDecoration(
+                    labelText: "Apellido",
+                    prefixIcon: const Icon(Icons.person_outline),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Ingresa tu apellido";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
 
                 // 📧 Email
                 TextFormField(
@@ -105,7 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         _obscurePassword
                             ? Icons.visibility_off
                             : Icons.visibility,
-                        color: Colors.deepPurple,
+                        color: Colors.lightBlue,
                       ),
                       onPressed: () =>
                           setState(() => _obscurePassword = !_obscurePassword),
@@ -140,7 +186,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         _obscureConfirm
                             ? Icons.visibility_off
                             : Icons.visibility,
-                        color: Colors.deepPurple,
+                        color: Colors.lightBlue,
                       ),
                       onPressed: () =>
                           setState(() => _obscureConfirm = !_obscureConfirm),
@@ -165,10 +211,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // 🚀 Botón de registro
                 _isLoading
-                    ? const CircularProgressIndicator(color: Colors.deepPurple)
+                    ? const CircularProgressIndicator(color: Colors.lightBlue)
                     : ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurple,
+                          backgroundColor: Colors.lightBlue,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 100, vertical: 14),
                           shape: RoundedRectangleBorder(
@@ -199,7 +245,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: const Text(
                     "¿Ya tienes cuenta? Inicia sesión",
                     style: TextStyle(
-                      color: Colors.deepPurple,
+                      color: Colors.lightBlue,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
